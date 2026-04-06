@@ -1,0 +1,25 @@
+# Node stuff
+node_modules
+npm-debug.log
+yarn.lock
+package-lock.json
+
+# Next.js build output
+.next
+out
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.development
+
+# OS & IDE junk
+.DS_Store
+.vscode
+.git
+.gitignore
+
+# Docker junk
+Dockerfile
+docker-compose.yml

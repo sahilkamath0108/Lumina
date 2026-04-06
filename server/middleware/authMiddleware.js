@@ -1,5 +1,4 @@
-import e from "express"
-import jwt from "jsonwebtoken"
+import supabase from "../supabase/configure.js"
 
 export function verifySupabaseJWT(req, res, next) {
   const authHeader = req.headers["authorization"]
@@ -9,12 +8,15 @@ export function verifySupabaseJWT(req, res, next) {
     return res.status(401).json({ error: "No token provided" })
   }
 
-  try {
-    const decoded = jwt.verify(token, process.env.SUPABASE_JWT_TOKEN)
-    // console.log("Decoded JWT:", decoded)  
-    req.user = { id: decoded.sub, email: decoded.email };  
-    next()
-  } catch (err) {
-    return res.status(401).json({ error: "Invalid or expired token" })
-  }
+  supabase.auth
+    .getUser(token)
+    .then(({ data, error }) => {
+      if (error || !data?.user) {
+        return res.status(401).json({ error: "Invalid or expired token" })
+      }
+
+      req.user = { id: data.user.id, email: data.user.email }
+      next()
+    })
+    .catch(() => res.status(401).json({ error: "Invalid or expired token" }))
 }
