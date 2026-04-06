@@ -7,7 +7,7 @@ import { useUser } from "@/context/userContext"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import { useWishlist } from "@/context/wishlistContext";
-import { CatalogVisualPlaceholder } from "@/components/catalog-visual-placeholder"
+import { CatalogSessionMedia } from "@/components/catalog-session-media"
 import Link from "next/link"
 
 interface WishlistItem {
@@ -100,7 +100,12 @@ export default function WishlistPage() {
           <Card key={item.wishlist_item_id}>
             <div className="cursor-pointer" onClick={() => router.push(`/session/${item.product_id}`)}>
               <CardHeader className="p-0">
-                <CatalogVisualPlaceholder className="aspect-square w-full rounded-t-lg" iconClassName="h-14 w-14" />
+                <CatalogSessionMedia
+                  src={item.image}
+                  alt={item.title}
+                  className="aspect-square w-full rounded-t-2xl"
+                  iconClassName="h-14 w-14"
+                />
               </CardHeader>
               <CardContent>
                 <div className="grid gap-2">

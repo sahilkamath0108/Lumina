@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { CatalogVisualPlaceholder } from "@/components/catalog-visual-placeholder";
+import { CatalogSessionMedia } from "@/components/catalog-session-media";
 
 interface CartItemProps {
   cart_id: string;
@@ -23,6 +23,7 @@ export const CartItem = ({
   quantity,
   onUpdateQuantity,
   onRemove,
+  image,
 }: CartItemProps) => {
   const router = useRouter();
 
@@ -32,7 +33,13 @@ export const CartItem = ({
         className="flex min-w-0 cursor-pointer items-center gap-4"
         onClick={() => router.push(`/session/${product_id}`)}
       >
-        <CatalogVisualPlaceholder className="h-16 w-16 flex-shrink-0 rounded-lg" iconClassName="h-6 w-6" />
+        <CatalogSessionMedia
+          src={image}
+          alt={title}
+          className="h-16 w-16 flex-shrink-0 rounded-xl"
+          iconClassName="h-6 w-6"
+          sizes="64px"
+        />
         <div className="min-w-0 flex-1">
           <h3 className="text-foreground line-clamp-2 text-sm font-medium lg:text-base">{title}</h3>
         </div>

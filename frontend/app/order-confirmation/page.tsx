@@ -7,7 +7,7 @@ import { fetchOrderItems, fetchOrder } from "@/utils/apis/ordersAPI"
 import { useUser } from "@/context/userContext"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { clearCart } from "@/utils/apis/cartAPI"
-import { CatalogVisualPlaceholder } from "@/components/catalog-visual-placeholder"
+import { CatalogSessionMedia } from "@/components/catalog-session-media"
 
 interface OrderItem {
   order_item_id: string,
@@ -89,7 +89,13 @@ export default function OrderConfirmation() {
                       <div key={item.order_item_id || item.product_id} 
                       className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <CatalogVisualPlaceholder className="h-12 w-12 rounded-md" iconClassName="h-5 w-5" />
+                          <CatalogSessionMedia
+                            src={item.image}
+                            alt={item.title}
+                            className="h-12 w-12 rounded-lg"
+                            iconClassName="h-5 w-5"
+                            sizes="48px"
+                          />
                           <div>
                             <div className="font-medium">{item.title}</div>
                             <div className="text-sm text-muted-foreground">Quantity: {item.quantity}</div>

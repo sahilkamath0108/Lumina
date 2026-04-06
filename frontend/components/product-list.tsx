@@ -20,7 +20,7 @@ import { addCart } from "@/utils/apis/cartAPI";
 import { useCart } from "@/context/cartContext";
 import { useWishlist } from "@/context/wishlistContext";
 import { FaHeart } from "react-icons/fa";
-import { CatalogVisualPlaceholder } from "@/components/catalog-visual-placeholder";
+import { CatalogSessionMedia } from "@/components/catalog-session-media";
 import { Product } from './store'
 
 export default function ProductList() {
@@ -146,16 +146,21 @@ export default function ProductList() {
 
   return (
     <div>
-      <div className="flex flex-col gap-6 lg:flex-row">
+      <div className="flex flex-col gap-8 lg:flex-row lg:gap-10">
         {/* Desktop Filters Sidebar */}
-        <aside className="hidden w-64 lg:block">
-          <FilterSection />
+        <aside className="hidden w-72 shrink-0 lg:block">
+          <div className="lg:sticky lg:top-24">
+            <FilterSection />
+          </div>
         </aside>
 
         {/* Main Content */}
         <main className="flex-1">
           {/* Controls Bar */}
-          <div className="mb-4 flex flex-col gap-4 sm:mb-6">
+            <div className="mb-6 flex flex-col gap-4 sm:mb-8">
+            <div className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">
+              Session catalog
+            </div>
             {/* Top row - Mobile filter button and product count */}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -193,7 +198,7 @@ export default function ProductList() {
                   placeholder="Search sessions, hosts, tracks..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 sm:w-64"
+                  className="w-full rounded-xl border-border/80 bg-card/80 pl-10 sm:w-72"
                 />
               </div>
 
@@ -228,25 +233,33 @@ export default function ProductList() {
                 : "grid-cols-1"
                 }`}>
               {filteredProducts.map((product: Product) => (
-                <Card key={product.product_id} className="group transition-shadow hover:shadow-lg h-full flex flex-col">
-                  <CardContent className="p-2 sm:p-4 flex flex-col flex-1">
+                <Card
+                  key={product.product_id}
+                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card/95 shadow-none transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-md"
+                >
+                  <CardContent className="flex flex-1 flex-col p-3 sm:p-4">
                     <div className="mb-4 cursor-pointer" onClick={() => router.push(`/session/${product.product_id}`)}>
                       <div className="relative mb-3 sm:mb-4">
-                        <CatalogVisualPlaceholder className="h-40 w-full sm:h-48" iconClassName="h-12 w-12 sm:h-14 sm:w-14" />
+                        <CatalogSessionMedia
+                          src={product.image}
+                          alt={product.title}
+                          className="h-40 w-full rounded-xl sm:h-48"
+                          iconClassName="h-12 w-12 sm:h-14 sm:w-14"
+                        />
                         {product.isNew && (
-                          <Badge className="absolute top-2 left-2 bg-red-500 text-xs hover:bg-red-600">
+                          <Badge className="absolute left-2 top-2 rounded-full border-0 bg-primary px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary-foreground">
                             New
                           </Badge>
                         )}
                       </div>
 
                       <div className="space-y-2">
-                        <h3 className="line-clamp-2 text-sm leading-tight font-medium">
+                        <h3 className="line-clamp-2 font-display text-base font-semibold leading-snug tracking-tight">
                           {product.title}
                         </h3>
 
                         <div className="flex flex-wrap items-center gap-2">
-                          <span className="text-base font-bold text-blue-600 sm:text-lg">
+                          <span className="text-lg font-bold text-primary sm:text-xl">
                             ₹{product.price.toFixed(2)}
                           </span>
                           {product.originalPrice && (
@@ -254,8 +267,8 @@ export default function ProductList() {
                               <span className="text-muted-foreground text-xs line-through sm:text-sm">
                                 ₹{product.originalPrice.toFixed(2)}
                               </span>
-                              <Badge variant="destructive" className="text-xs">
-                                -{product.discount}%
+                              <Badge variant="secondary" className="rounded-full text-xs font-medium">
+                                −{product.discount}%
                               </Badge>
                             </>
                           )}
@@ -267,8 +280,8 @@ export default function ProductList() {
                               <Star
                                 key={i}
                                 className={`h-3 w-3 ${i < Math.floor(product.rating)
-                                  ? "fill-yellow-400 text-yellow-400"
-                                  : "text-gray-300"
+                                  ? "fill-amber-500 text-amber-500"
+                                  : "text-muted-foreground/40"
                                   }`}
                               />
                             ))}
@@ -284,8 +297,10 @@ export default function ProductList() {
                       </div>
                     </div>
 
-                    <div className="mt-auto flex gap-2 pt-2">
-                      <Button className="flex-1" size="sm"
+                    <div className="mt-auto flex gap-2 border-t border-border/50 pt-3">
+                      <Button
+                        className="flex-1 rounded-xl"
+                        size="sm"
                         disabled={cart.some((item) => item.id === product.product_id)}
                         onClick={() => handleAddToCart({ productId: product.product_id, price: product.price })}
                       >
@@ -301,7 +316,7 @@ export default function ProductList() {
                         onClick={() => handleAddToWishlist(product.product_id)}
                         variant="outline"
                         size="sm"
-                        className="bg-transparent px-2 sm:px-3"
+                        className="rounded-xl border-border/80 bg-transparent px-2 sm:px-3"
                       >
                         {wishlist.some((item) => item.id === product.product_id)
                           ? <FaHeart className="h-4 w-4" />

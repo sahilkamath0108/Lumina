@@ -15,7 +15,7 @@ Lumina is a full-stack **conference and workshop catalog** demo: attendees brows
 
 ## Architecture (unchanged mechanics)
 
-1. Authenticated users hit **`/events/*`** on the API; JWTs are verified with the Supabase JWT secret.  
+1. Authenticated users hit **`/events/*`** on the API; the access token is validated via Supabase (`auth.getUser`).  
 2. Opening a session detail triggers a **Kafka** “views” event; saving the lineup emits “wishlist”; placing an order emits “purchase” per line.  
 3. The **Kafka consumer** projects those events into **Redis** (leaderboards, per-user counters, purchase hashes).  
 4. **Prometheus** pulls Node/process metrics from `prom-client` (prefix `lumina_`) plus infrastructure exporters.
@@ -58,6 +58,19 @@ Services:
 ## Renaming note (Supabase schema)
 
 Table names such as `products`, `product_id`, and `cart` are **unchanged** in the database so you do not need a migration for this rebrand. The UI and API routes use **session** language; only the persistence layer keeps legacy names.
+
+## Session / course images (optional)
+
+Catalog rows live in the **`products`** table. Set the **`image`** column to a **public HTTPS URL**:
+
+1. **Supabase Storage (recommended)**  
+   - Create a bucket (e.g. `session-images`) and make it **public**, or use signed URLs (would require code changes).  
+   - Upload a file → copy the **public** object URL (`…/storage/v1/object/public/…`).  
+   - Paste that URL into `products.image` for each row.
+
+2. **Rebuild the web app after changing `next.config.ts`** image `remotePatterns` if you use a host other than `**.supabase.co` / `**.supabase.in`.
+
+If `image` is empty, the UI shows a neutral placeholder.
 
 ## Optional: shared cookies in production
 

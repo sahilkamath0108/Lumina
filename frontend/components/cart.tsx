@@ -127,7 +127,7 @@ export default function Cart() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <div className="bg-card border-cart-border rounded-lg border p-6">
-              <h1 className="mb-6 text-2xl font-semibold">Shopping Cart</h1>
+              <h1 className="font-display mb-6 text-2xl font-semibold tracking-tight">Your passes</h1>
               {
                 count > 0 && (
                   <h3 className="text-lg font-medium">Items in your cart: {count}</h3>

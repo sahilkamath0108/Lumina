@@ -12,7 +12,7 @@ export function CatalogVisualPlaceholder({
   return (
     <div
       className={cn(
-        "bg-muted text-muted-foreground flex items-center justify-center rounded-md border border-dashed",
+        "bg-muted/60 text-muted-foreground flex items-center justify-center rounded-xl border border-dashed border-border/70",
         className
       )}
       aria-hidden

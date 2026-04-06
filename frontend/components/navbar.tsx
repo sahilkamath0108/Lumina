@@ -23,7 +23,7 @@ import { ModeToggle } from './ui/theme-toggle';
 
 const Logo = () => (
   <div
-    className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-md bg-primary text-sm font-bold text-primary-foreground"
+    className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-primary/70 text-sm font-bold tracking-tight text-primary-foreground shadow-sm ring-1 ring-primary/20"
     aria-hidden
   >
     L
@@ -123,12 +123,12 @@ export const Navbar = React.forwardRef<HTMLElement, Navbar01Props>(
       <header
         ref={combinedRef}
         className={cn(
-          'sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-10 md:px-14 [&_*]:no-underline',
+          'sticky top-0 z-50 w-full border-b border-border/70 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/70 [&_*]:no-underline',
           className
         )}
         {...props}
       >
-        <div className="container mx-auto flex h-16 max-w-screen-2xl items-center justify-between gap-4">
+        <div className="mx-auto flex h-[4.25rem] max-w-[1400px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-10">
           {/* Left side */}
           <div className="flex items-center gap-2">
             {/* Mobile menu trigger */}
@@ -170,10 +170,12 @@ export const Navbar = React.forwardRef<HTMLElement, Navbar01Props>(
             <div className="flex items-center gap-6">
               <button
                 onClick={() => router.push(logoHref)}
-                className="flex items-center space-x-2 text-primary hover:text-primary/90 transition-colors cursor-pointer"
+                className="flex cursor-pointer items-center gap-3 text-foreground transition-opacity hover:opacity-90"
               >
                 {logo}
-                <span className="hidden font-semibold text-xl sm:inline-block">Lumina</span>
+                <span className="font-display hidden text-2xl font-semibold tracking-tight sm:inline-block">
+                  Lumina
+                </span>
               </button>
               {/* Navigation menu */}
               {!isMobile && (
@@ -200,13 +202,21 @@ export const Navbar = React.forwardRef<HTMLElement, Navbar01Props>(
             </div>
           </div>
           {/* Right side */}
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-2 sm:gap-3">
             <ModeToggle />
-            <Link href="/wishlist" aria-label="Saved sessions">
-              <Heart className="cursor-pointer" />
+            <Link
+              href="/wishlist"
+              aria-label="Saved sessions"
+              className="rounded-full p-2.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            >
+              <Heart className="h-5 w-5" />
             </Link>
-            <Link href="/checkout-cart" aria-label="Registration cart">
-              <ShoppingCart className="cursor-pointer" />
+            <Link
+              href="/checkout-cart"
+              aria-label="Registration cart"
+              className="rounded-full p-2.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            >
+              <ShoppingCart className="h-5 w-5" />
             </Link>
             <CurrentUserAvatar />
             {

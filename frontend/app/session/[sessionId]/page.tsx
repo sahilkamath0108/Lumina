@@ -10,7 +10,7 @@ import { addCart } from "@/utils/apis/cartAPI";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import React from "react";
 import { fetchSessionById } from "@/utils/apis/eventsAPI";
-import { CatalogVisualPlaceholder } from "@/components/catalog-visual-placeholder";
+import { CatalogSessionMedia } from "@/components/catalog-session-media";
 import { useCart } from "@/context/cartContext";
 import { useWishlist } from "@/context/wishlistContext";
 import { Product as SessionRow } from "@/components/store";
@@ -98,55 +98,65 @@ export default function SessionDetailPage({ params }: SessionDetailPageProps) {
   const details =
     (session as unknown as { product_details?: string }).product_details ??
     session.productDetails;
+  const imageUrl = (session as unknown as { image?: string }).image;
 
   return (
-    <div className="mx-auto max-w-7xl">
-      <div className="grid items-start gap-8 md:grid-cols-2 lg:gap-12">
-        <div className="relative">
-          <CatalogVisualPlaceholder className="aspect-4/3 h-[410px] w-full rounded-lg" iconClassName="h-16 w-16 md:h-24 md:w-24" />
+    <div className="mx-auto max-w-6xl">
+      <div className="grid items-start gap-10 md:grid-cols-2 lg:gap-14">
+        <div className="relative overflow-hidden rounded-2xl border border-border/70 bg-card/50 shadow-sm">
+          <CatalogSessionMedia
+            src={imageUrl}
+            alt={title}
+            className="aspect-4/3 min-h-[280px] w-full md:min-h-[380px]"
+            iconClassName="h-16 w-16 md:h-24 md:w-24"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            priority
+          />
         </div>
 
         <div className="grid gap-6">
           <div className="grid gap-2">
-            <div className="text-sm text-gray-500">{category}</div>
-            <h1 className="text-3xl font-bold">{title}</h1>
+            <div className="text-xs font-semibold uppercase tracking-widest text-primary/80">
+              {category}
+            </div>
+            <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">{title}</h1>
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-0.5">
-                <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
-                <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
-                <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
-                <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
-                <Star className="h-4 w-4 fill-gray-300 text-gray-300" />
+                <Star className="h-4 w-4 fill-amber-500 text-amber-500" />
+                <Star className="h-4 w-4 fill-amber-500 text-amber-500" />
+                <Star className="h-4 w-4 fill-amber-500 text-amber-500" />
+                <Star className="h-4 w-4 fill-amber-500 text-amber-500" />
+                <Star className="text-muted-foreground/35 h-4 w-4" />
               </div>
-              <span className="text-sm text-gray-500">{rating}</span>
+              <span className="text-muted-foreground text-sm">{rating}</span>
             </div>
           </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-bold">${price}</span>
+          <div className="flex flex-wrap items-baseline gap-3">
+            <span className="text-4xl font-bold text-primary">${price}</span>
             {session.discount != null && session.discount > 0 && (
               <div className="flex items-center gap-2">
-                <span className="rounded-md bg-green-100 px-2 py-1 text-sm font-medium text-green-800">
-                  {session.discount}% OFF
+                <span className="rounded-full bg-accent px-3 py-1 text-sm font-semibold text-accent-foreground">
+                  {session.discount}% off
                 </span>
-                <span className="text-lg text-gray-500 line-through">
+                <span className="text-muted-foreground text-lg line-through">
                   ${(session as unknown as { original_price?: number }).original_price ?? session.originalPrice}
                 </span>
               </div>
             )}
           </div>
-          <div className="text-sm text-gray-500">{orders} attendees registered</div>
+          <div className="text-muted-foreground text-sm">{orders} attendees registered</div>
 
           <div className="grid gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="composition" className="text-base font-medium">
+              <Label htmlFor="composition" className="font-display text-lg font-semibold">
                 Session details
               </Label>
-              <p className="text-sm text-gray-500">{details}</p>
+              <p className="text-muted-foreground text-sm leading-relaxed">{details}</p>
             </div>
 
-            <div className="flex flex-col gap-2 min-[400px]:flex-row py-8">
+            <div className="flex flex-col gap-3 min-[400px]:flex-row py-6">
               <Button
-                className="h-12 flex-1 text-lg"
+                className="h-12 flex-1 rounded-xl text-base"
                 onClick={() =>
                   handleAddToCart({ productId: session.product_id, price: session.price })
                 }
@@ -155,7 +165,8 @@ export default function SessionDetailPage({ params }: SessionDetailPageProps) {
                 Add pass to cart
               </Button>
               <Button
-                className="h-12 flex-1 bg-[#D9FF66] text-lg text-gray-900 hover:bg-[#c6eb5e]"
+                variant="outline"
+                className="h-12 flex-1 rounded-xl border-2 border-primary/40 text-base hover:bg-primary/5"
                 onClick={() => handleAddToWishlist(session.product_id)}
               >
                 Save session

@@ -54,9 +54,9 @@ function FilterSection() {
   } = useProductStore();
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 rounded-2xl border border-border/80 bg-card/90 p-5 shadow-sm backdrop-blur-sm">
       <div>
-        <h3 className="mb-3 font-semibold">Conference tracks</h3>
+        <h3 className="font-display mb-3 text-lg font-semibold tracking-tight">Conference tracks</h3>
         <RadioGroup value={selectedCategory} onValueChange={setSelectedCategory}>
           <div className="space-y-2 text-sm">
             {categories.map((category) => (
@@ -77,7 +77,7 @@ function FilterSection() {
 
       {/* Host orgs — filter ids still match `brand` values stored for each session */}
       <div>
-        <h3 className="mb-3 font-semibold">Hosts & partners</h3>
+        <h3 className="font-display mb-3 text-lg font-semibold tracking-tight">Hosts & partners</h3>
         <div className="max-h-48 space-y-3 overflow-y-auto">
           {brands.map((brand) => (
             <div key={brand.id} className="flex items-center space-x-2">
@@ -98,7 +98,7 @@ function FilterSection() {
 
       {/* Accent tags */}
       <div>
-        <h3 className="mb-3 font-semibold">Session accents</h3>
+        <h3 className="font-display mb-3 text-lg font-semibold tracking-tight">Session accents</h3>
         <div className="grid grid-cols-1 gap-2">
           {colors.map((color) => (
             <div key={color.id} className="flex items-center space-x-2">
@@ -120,7 +120,7 @@ function FilterSection() {
 
       {/* Price Range */}
       <div>
-        <h3 className="mb-3 font-semibold">Pass price (₹)</h3>
+        <h3 className="font-display mb-3 text-lg font-semibold tracking-tight">Pass price (₹)</h3>
         <div className="space-y-4">
           <Slider
             value={priceRange}
