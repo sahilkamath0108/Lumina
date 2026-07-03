@@ -1,3 +1,4 @@
+# File: docker-compose.yml
 name: "lumina"
 services:
   lumina-api:
