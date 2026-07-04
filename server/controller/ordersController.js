@@ -1,6 +1,16 @@
 import OrdersService from "../service/orderService.js";
 
 class OrdersController {
+    static async fetchOrders(req, res){
+        try {
+            const userID = req.user.id
+            const response = await OrdersService.fetchOrders(userID)
+            res.status(200).json(response);
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
     static async fetchOrder(req, res){
         try {
             const userID = req.params.user_id

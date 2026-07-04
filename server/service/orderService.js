@@ -4,16 +4,19 @@ import ProductRepo from "../repositories/productRepo.js";
 import kProducers from "../kafka/kproducerAPI.js";
 
 class OrdersService {
-    static async fetchOrder(userID) {
-        const order = await OrdersRepo.fetchOrder(userID)
+    static async fetchOrders(userID) {
+        const orders = await OrdersRepo.fetchOrders(userID)
+        return orders
+    }
+    
+    static async fetchOrder(userID, orderID) {
+        const order = await OrdersRepo.fetchOrder(userID, orderID)
         return order
     }
-
-    static async fetchOrderItems(userID) {
-        let orderID = await OrdersRepo.fetchOrder(userID)
-        orderID = orderID?.order_id
-        console.log("Fetched orderID: ", orderID)
-        if (orderID) {
+    
+    static async fetchOrderItems(userID, orderID) {
+        let order = await OrdersRepo.fetchOrder(userID, orderID);
+        if (order) {
             let orderItems = await OrdersRepo.fetchOrderItems(orderID)
             console.log("Order items before fetching product details: ", orderItems)
             orderItems = await Promise.all(
@@ -40,7 +43,7 @@ class OrdersService {
             return []
         }
     }
-
+    
     static async addNewOrder(data, userID, email) {
         const newOrder = await OrdersRepo.addNewOrder(data)
         const orderID = newOrder?.order_id
@@ -71,4 +74,4 @@ class OrdersService {
     }
 }
 
-export default OrdersService
+export default OrdersService;

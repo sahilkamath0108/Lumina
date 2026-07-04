@@ -9,6 +9,7 @@ import userRoutes from './routes/userRoutes.js'
 import wishlistRoutes from './routes/wishlistRoutes.js'
 import ordersRoutes from './routes/ordersRoutes.js'
 import cartRoutes from './routes/cartRoutes.js'
+import myRegistrationsRoutes from './routes/myRegistrationsRoutes.js'
 import { verifySupabaseJWT } from './middleware/authMiddleware.js'
 import cors from 'cors'
 import {
@@ -64,6 +65,7 @@ app.use('/user', verifySupabaseJWT, userRoutes);
 app.use('/wishlist', verifySupabaseJWT, wishlistRoutes);
 app.use('/orders', verifySupabaseJWT, ordersRoutes);
 app.use('/cart', verifySupabaseJWT, cartRoutes);
+app.use('/my-registrations', verifySupabaseJWT, myRegistrationsRoutes);
 
 app.get("/metrics", async (req, res, next) => {
     res.setHeader("Content-type", register.contentType);

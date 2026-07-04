@@ -1,18 +1,30 @@
 import supabase from "../supabase/configure.js";
 
 class OrdersRepo {
-    static fetchOrder = async (userID) => {
+    static fetchOrders = async (userID) => {
         const { data, error } = await supabase
             .from('orders')
             .select()
             .eq('user_id', userID)
+    if (error) {
+            console.log("Failed to fetch the orders ", error)
+        }
+        return data
+    }
+    
+    static fetchOrder = async (userID, orderID) => {
+        const { data, error } = await supabase
+            .from('orders')
+            .select()
+            .eq('user_id', userID)
+            .eq('order_id', orderID)
             .single()
         if (error) {
             console.log("Failed to fetch the order ", error)
         }
         return data
     }
-
+    
     static fetchOrderItems = async (orderID) => {
         const { data, error } = await supabase
             .from('order_items')
@@ -24,7 +36,7 @@ class OrdersRepo {
 
         return data
     }
-
+    
     static addNewOrder = async ({ user_id, cart_id, subtotal, tax, total }) => {
         const { data, error } = await supabase
             .from('orders')
@@ -37,7 +49,7 @@ class OrdersRepo {
 
         return data
     }
-
+    
     static addOrderItems = async (orderID, productID, quantity, cost) => {
         const { data, error } = await supabase
             .from('order_items')
@@ -51,4 +63,3 @@ class OrdersRepo {
 }
 
 export default OrdersRepo;
-

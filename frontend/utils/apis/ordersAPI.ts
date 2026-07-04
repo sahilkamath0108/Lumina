@@ -1,11 +1,11 @@
 import { fetchWithAuth } from './fetchWithAuth';
 
-export async function fetchOrder(user_id: string){
+export async function fetchOrders(user_id: string){
     try{
-        const response = await fetchWithAuth(`/orders/getOrder/${user_id}`, {
+        const response = await fetchWithAuth(`/orders/getOrders/${user_id}`, {
             method: 'GET'
         });
-        console.log("Fetched order ", response)
+        console.log("Fetched orders ", response)
         return response
     } catch (error) {
         console.error(error)
