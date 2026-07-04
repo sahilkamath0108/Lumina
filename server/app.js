@@ -71,6 +71,23 @@ app.get("/metrics", async (req, res, next) => {
     next();
 });
 
+app.get('/health', async (req, res) => {
+    try {
+        const redisClient = await import('./redis/config.js').then(module => module.default);
+        const supabase = await import('./supabase/configure.js').then(module => module.default);
+        await redisClient.connect();
+        await redisClient.ping();
+        const { data, error } = await supabase.from('products').select('id', { limit: 1 });
+        if (error) {
+            throw error;
+        }
+        res.json({ status: 'ok' });
+    } catch (error) {
+        console.error('Health check failed:', error);
+        res.status(503).json({ status: 'error' });
+    }
+});
+
 app.get('/', (req, res) => {
     res.send("Lumina API — conference catalog, registrations, and analytics pipeline.")
 });
