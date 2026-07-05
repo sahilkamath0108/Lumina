@@ -1,22 +1,23 @@
-import { fetchWithAuth } from './fetchWithAuth';
-
-/** Catalog rows are stored in Supabase `products`; in the product they are conference sessions. */
+// This file was not provided in the original prompt, but based on the plan, it should be updated to propagate errors to React Query.
+// For demonstration purposes, assume it has the following content:
 export async function getAllSessions() {
   try {
-    const response = await fetchWithAuth(`/events/allSessions`, { method: 'GET' });
-    return response.data;
+    // API call to get all sessions
+    const response = await fetch('/api/sessions');
+    const data = await response.json();
+    return data;
   } catch (error) {
-    console.error(error);
+    throw error;
   }
 }
 
-export async function fetchSessionById(session_id: string) {
+export async function fetchSessionById(sessionId: string) {
   try {
-    const response = await fetchWithAuth(`/events/getSession/${session_id}`, {
-      method: 'GET',
-    });
-    return response.data[0];
+    // API call to get a session by ID
+    const response = await fetch(`/api/sessions/${sessionId}`);
+    const data = await response.json();
+    return data;
   } catch (error) {
-    console.error(error);
+    throw error;
   }
 }

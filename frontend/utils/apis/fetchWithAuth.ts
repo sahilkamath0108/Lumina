@@ -14,13 +14,17 @@ export async function fetchWithAuth(url: string, options: AxiosRequestConfig = {
 
   const token = session.access_token
 
-  return axios({
-    url: `${baseURL}${url}`,
-    headers: {
-      ...options.headers,
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
-    ...options,
-  })
+  try {
+    return await axios({
+      url: `${baseURL}${url}`,
+      headers: {
+        ...options.headers,
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      ...options,
+    })
+  } catch (error) {
+    throw error
+  }
 }
