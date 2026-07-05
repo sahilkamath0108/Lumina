@@ -25,13 +25,16 @@ export default function SessionDetailPage({ params }: SessionDetailPageProps) {
   const router = useRouter();
   const user = useUser();
 
-  const { data: session } = useQuery({
+  const { data: session, error } = useQuery({
     queryKey: ["session", sessionId],
     queryFn: () => fetchSessionById(sessionId),
     initialData: () => {
       const catalog = queryClient.getQueryData<SessionRow[]>(["catalog"]);
       return catalog?.find((s) => s.product_id === sessionId);
     },
+    onError: (error) => {
+      console.error("Failed to fetch session", error);
+    }
   });
 
   const addToWishlist = useWishlist((state) => state.addWishlist);
@@ -54,7 +57,7 @@ export default function SessionDetailPage({ params }: SessionDetailPageProps) {
     },
     onError: (error) => {
       console.error("Failed to save session ", error);
-    },
+    }
   });
 
   const addZustandCart = useCart((state) => state.addCart);
@@ -83,7 +86,7 @@ export default function SessionDetailPage({ params }: SessionDetailPageProps) {
     },
     onError: (error) => {
       console.error("Failed to add pass ", error);
-    },
+    }
   });
 
   if (!session) {
@@ -96,8 +99,7 @@ export default function SessionDetailPage({ params }: SessionDetailPageProps) {
   const rating = session.rating;
   const orders = session.orders;
   const details =
-    (session as unknown as { product_details?: string }).product_details ??
-    session.productDetails;
+    (session as unknown as { product_details?: string }).product_details ?? session.productDetails;
   const imageUrl = (session as unknown as { image?: string }).image;
 
   return (
