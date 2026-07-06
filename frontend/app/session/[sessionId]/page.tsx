@@ -25,7 +25,7 @@ export default function SessionDetailPage({ params }: SessionDetailPageProps) {
   const router = useRouter();
   const user = useUser();
 
-  const { data: session } = useQuery({
+  const { data: session, error } = useQuery({
     queryKey: ["session", sessionId],
     queryFn: () => fetchSessionById(sessionId),
     initialData: () => {
@@ -90,14 +90,17 @@ export default function SessionDetailPage({ params }: SessionDetailPageProps) {
     return <div>Session not found</div>;
   }
 
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
   const title = session.title;
   const category = session.category;
   const price = session.price;
   const rating = session.rating;
   const orders = session.orders;
   const details =
-    (session as unknown as { product_details?: string }).product_details ??
-    session.productDetails;
+    (session as unknown as { product_details?: string }).product_details ?? session.productDetails;
   const imageUrl = (session as unknown as { image?: string }).image;
 
   return (
