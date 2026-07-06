@@ -6,7 +6,7 @@ export async function getAllSessions() {
     const response = await fetchWithAuth(`/events/allSessions`, { method: 'GET' });
     return response.data;
   } catch (error) {
-    console.error(error);
+    throw error;
   }
 }
 
@@ -17,6 +17,6 @@ export async function fetchSessionById(session_id: string) {
     });
     return response.data[0];
   } catch (error) {
-    console.error(error);
+    throw error;
   }
 }

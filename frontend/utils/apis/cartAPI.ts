@@ -10,6 +10,7 @@ export async function fetchCart(user_id: string) {
         return response
     } catch (error) {
         console.error(error)
+        throw error;
     }
 }
 
@@ -23,6 +24,7 @@ export async function addCart(user_id: string, product_id: string, quantity: num
         return response
     } catch (error) {
         console.error(error)
+        throw error;
     }
 }
 
@@ -35,6 +37,7 @@ export async function removeItemFromCart(cart_item_id: string) {
         return response
     } catch (error) {
         console.error(error)
+        throw error;
     }   
 }
 
@@ -47,6 +50,7 @@ export async function clearCart(cart_id: string) {
         return response
     } catch (error) {
         console.error(error)
+        throw error;
     }
 }
 
@@ -61,5 +65,6 @@ export async function updateCartItem(cart_item_id: string, quantity: number) {
         return response
     } catch (error) {
         console.error(error)
+        throw error;
     }
 }
